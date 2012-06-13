@@ -78,7 +78,7 @@ function _picatcha_http_post($host, $path, $data, $port = 80) {
   $http_request .= $data;
 
   $response = '';
-  $fs = @fsockopen($host, $port, $errno, $errstr, 10)
+  $fs = @fsockopen($host, $port, $errno, $errstr, 10);
   if (FALSE == $fs) {
     die('Could not open socket');
   }
@@ -108,12 +108,12 @@ function _picatcha_http_post($host, $path, $data, $port = 80) {
  * @return string
  *   The HTML to be embedded in the user's form
  */
-function picatcha_get_html($pubkey, $error = NULL, $format = '2', $style = '#2a1f19', $link = '1', $IMG_SIZE = '75', $NOISE_LEVEL = 0, $NOISE_TYPE = 0) {
+function picatcha_get_html($pubkey, $error = NULL, $format = '2', $style = '#2a1f19', $link = '1', $IMG_SIZE = '75', $NOISE_LEVEL = 0, $NOISE_TYPE = 0, $lang = 'en', $langOverride = '0') {
   $elm_id = 'picatcha';
   $html = '';
   $html .= '<script type="text/javascript" src="http://' . PICATCHA_API_SERVER . '/static/client/picatcha.js"></script>';
   $html .= '<link href="http://' . PICATCHA_API_SERVER . '/static/client/picatcha.css" rel="stylesheet" type="text/css">';
-  $html .= '<script>Picatcha.PUBLIC_KEY="' . $pubkey . '"; Picatcha.STYLE="' . $style . '"; Picatcha.FORMAT="' . $format . '"; Picatcha.LINK="' . $link . '"; Picatcha.IMG_SIZE="' . $IMG_SIZE . '"; Picatcha.NOISE_LEVEL="' . $NOISE_LEVEL . '"; Picatcha.NOISE_TYPE="' . $NOISE_TYPE . '"; window.onload=function(){Picatcha.create("' . $elm_id . '", {});};</script>';
+  $html .= '<script type="text/javascript">Picatcha.PUBLIC_KEY="'.$pubkey.'";Picatcha.setCustomization({"format":"'.$format.'","color":"'.$style.'","link":"'.$link.'","image_size":"'.$IMG_SIZE.'","lang":"'.$lang.'","langOverride":"'.$langOverride.'","noise_level":"'.$NOISE_LEVEL.'","noise_type":"'.$NOISE_TYPE.'"}); jQuery(window).load(function(){Picatcha.create("'.$elm_id.'",{})});</script>';
   if ($error != NULL) {
     $html .= '<div id="' . $elm_id . '_error">' . $error . '</div>';
   }
